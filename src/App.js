@@ -1,26 +1,51 @@
 import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import axios from 'axios'
+import Form from './components/Form'
+import Loading from './components/Loading'
+import Results from './components/Results'
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+class App extends React.Component {
+  constructor(props) {
+    super(props)
+    this.state ={
+      swCharacters : {
+        loading : false,
+        error : false,
+        data : []
+      }
+    }
+  }
+
+  searchChar = (str) => {
+    this.setState({
+      ...this.state,
+      swCharacters : {
+        ...this.state.swCharacters,
+        loading: true
+      }
+    })
+    axios.get("https://swapi.co/api/people/?search=" + str)
+    .then(result => {
+      this.setState({
+        ...this.state,
+        swCharacters : {
+          ...this.swCharacters,
+          data : [...result.data.results]
+        }
+      })
+    })
+  }
+
+  render() {
+    return (
+      <div className="App">
+        <h1>Star Wars Galaxy Searcher</h1>
+        <Form searchChar={this.searchChar}/>
+        {this.state.swCharacters.loading && <Loading />}
+        {Object.keys(this.state.swCharacters.data).length !==0 && <Results data={this.state.swCharacters.data}/>}
+      </div>
+    );
+  }
 }
 
 export default App;
