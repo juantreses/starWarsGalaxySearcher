@@ -5,6 +5,12 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  background: repeat url(./background.jpg) ;
+}
+
+#root {
+  
+  
 }
 
 code {
@@ -13,8 +19,10 @@ code {
 }
 
 .App {
+  background-color: white;
   width: 80%;
-  margin: 0 auto
+  margin: 0 auto;
+  padding: 0 2em 1em 2em;
 }
 
 .grid {
