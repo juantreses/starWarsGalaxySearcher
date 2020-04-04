@@ -1,9 +1,8 @@
 import React from 'react';
 import { v4 as uuid } from 'uuid';
 
-export default function Results({data}) {
-    console.log(data)
-    return data.map(char => {
+export default function Results(props) {
+    return props.data.map(char => {
         return (
             <>
             <h2>{char.name}</h2>
@@ -12,6 +11,8 @@ export default function Results({data}) {
         <p>Eye color: {char.eye_color}</p>
         <p>Birth year: {char.birth_year}</p>
         <p>Gender: {char.gender}</p>
+
+            <button onClick={() => props.back("https://swapi.co/api/people/?search=")}>Back</button>
             </>
         )
     });

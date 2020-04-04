@@ -13,6 +13,42 @@ code {
 }
 
 .App {
-  width: 500px;
+  width: 80%;
   margin: 0 auto
+}
+
+.grid {
+  display: grid;
+  grid-template: auto/1fr 1fr;
+}
+
+a {
+  text-decoration: none;
+  display: inline-block;
+  padding: 8px 16px;
+  font-size: 20px;
+}
+
+a:hover {
+  cursor: pointer;
+}
+
+.previous, .next:hover {
+  background-color: rgb(0, 0, 0);
+  color: rgb(238, 219, 0);
+}
+
+.next, .previous:hover {
+  background-color: rgb(238, 219, 0);
+  color: rgb(0, 0, 0);
+}
+
+.round {
+  border-radius: 50%;
+}
+
+.flexbox {
+  margin-top: 1em;
+  display: flex;
+  justify-content: space-around;
 }

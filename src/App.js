@@ -2,7 +2,9 @@ import React from 'react';
 import axios from 'axios'
 import Form from './components/Form'
 import Loading from './components/Loading'
-import Results from './components/Results'
+import Result from './components/Result'
+import Results from './components/AllResults'
+import PageButtons from './components/PageButtons'
 
 class App extends React.Component {
   constructor(props) {
@@ -11,12 +13,19 @@ class App extends React.Component {
       swCharacters : {
         loading : false,
         error : false,
-        data : []
+        data : [],
+      },
+      links : {
       }
     }
   }
 
-  searchChar = (str) => {
+  componentDidMount() {
+    this.searchSpecific("https://swapi.co/api/people/?search=");
+
+  }
+
+  searchSpecific = (link) => {
     this.setState({
       ...this.state,
       swCharacters : {
@@ -24,13 +33,17 @@ class App extends React.Component {
         loading: true
       }
     })
-    axios.get("https://swapi.co/api/people/?search=" + str)
+    axios.get(link)
     .then(result => {
       this.setState({
         ...this.state,
         swCharacters : {
           ...this.swCharacters,
-          data : [...result.data.results]
+          data : [...result.data.results],
+        },
+        links : {
+          nextLink : result.data.next,
+          prevLink : result.data.previous,
         }
       })
     })
@@ -40,9 +53,15 @@ class App extends React.Component {
     return (
       <div className="App">
         <h1>Star Wars Galaxy Searcher</h1>
-        <Form searchChar={this.searchChar}/>
+        <Form searchChar={this.searchSpecific}/>
         {this.state.swCharacters.loading && <Loading />}
-        {Object.keys(this.state.swCharacters.data).length !==0 && <Results data={this.state.swCharacters.data}/>}
+        <div className="grid">
+          {(Object).keys(this.state.swCharacters.data).length > 1 && <Results data={this.state.swCharacters.data} showMore={this.searchSpecific}/>}
+        </div>
+          {(Object).keys(this.state.swCharacters.data).length === 1 && <Result data={this.state.swCharacters.data} back={this.searchSpecific}/>}
+        <div className="flexbox">
+        {(Object).keys(this.state.swCharacters.data).length > 1 && <PageButtons links={this.state.links} otherPage={this.searchSpecific}/>}
+        </div>
       </div>
     );
   }

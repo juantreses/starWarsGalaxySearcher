@@ -22,7 +22,7 @@ export default class Form extends React.Component {
 
     submitHandler = (e) => {
         e.preventDefault()
-        this.props.searchChar(this.state.searchField.value)
+        this.props.searchChar("https://swapi.co/api/people/?search=" + this.state.searchField.value)
     }
 
     render() {
